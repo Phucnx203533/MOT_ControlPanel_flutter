@@ -5,6 +5,7 @@ import 'package:firebase_auth/firebase_auth.dart';
 import 'package:splash_screen_view/SplashScreenView.dart';
 
 import '../components/side_menu.dart';
+import 'msg_dialog.dart';
 
 void main() async {
 }
@@ -27,7 +28,7 @@ class _LogInPageState extends State<LogInPage> {
       navigateRoute: SignPage(),
       duration: 5000,
       imageSize: 300,
-      imageSrc: "assets/images/logo_appthuepin.png",
+      imageSrc: "assets/logo_appthuepin.png",
       text: "Loading",
       textType: TextType.ColorizeAnimationText,
       textStyle: TextStyle(
@@ -201,14 +202,38 @@ class _SignPageState extends State<SignPage> {
     );
   }
   Future signInEmailPassword(String email, String password) async {
+
        FirebaseAuth.instance
           .signInWithEmailAndPassword(
           email: email.toString(),
-          password: password.toString()).then((user) {
-            Navigator.of(context).push(MaterialPageRoute(builder: (context) => SideMenu(currentIndex: 0,currentIndex_listcamera: 0,)));
+          password: password.toString()).then(
+               (user) {
+            Navigator.of(context).push(MaterialPageRoute(
+                builder: (context) =>
+                    SideMenu(currentIndex: 0,currentIndex_listcamera: 0,)
+            ));
       }).catchError((e){
         print(e);
+        MSG(e.code);
       });
+  }
+  void MSG(String code ){
+    return _onLogninErr(code, (code){
+      MsgDialog.showMsgDialog(context, "Sign-In",code);
+    });
+  }
+  void _onLogninErr(String code, Function(String) onSignInError){
+    switch(code){
+      case "invalid-email":
+        onSignInError("Invalid email");
+        break;
+      case "wrong-password":
+        onSignInError("Incorrect password");
+        break;
+      case "user-not-found":
+        onSignInError("Account does not exist or has been deleted");
+        break;
+    }
   }
 }
 
