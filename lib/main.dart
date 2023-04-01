@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:fluttercontrolpanel/changeNotifier.dart';
 import 'package:fluttercontrolpanel/components/empty_page.dart';
 import 'package:fluttercontrolpanel/components/side_menu.dart';
+import 'package:fluttercontrolpanel/screens/login.dart';
 import 'package:provider/provider.dart';
 import 'package:firebase_core/firebase_core.dart';
 import 'firebase_options.dart';
@@ -29,7 +30,7 @@ class MyApp extends StatelessWidget {
           currentIndex: 0,
           currentIndex_listcamera: 0,
         ),*/
-        home: EmptyPage(),
+        home: LogInPage(),
       ),
     );
   }
